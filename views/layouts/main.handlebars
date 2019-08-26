@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!--iQUery-->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+    <!--Bootstrap CSS-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <!--Custom CSS link-->
+    <link rel="stylesheet" href="/CSS/styles.css">
+
+    <title>EAT_DA_BURGER</title>
+</head>
+
+<body>
+    <div class="container">
+        <!--headings-->
+        <img src="/images/burger.PNG" alt="Burger" class="rounded mx-auto d-block" id='burgerImage'>
+        <h1 class='text-center'>Eat-Da-Burger</h1>
+
+        <!--body-->
+        {{{body}}}
+
+        <!--Input burger and submit button-->
+        <form>
+            <div class="form-group">
+                <label for="burgerInput" class='text-center d-block'>Input Burger</label>
+                <input type="text" class="form-control" id="burgerInput" placeholder="Enter a Burger">
+            </div>
+            <button id='submit' type="submit" class="btn btn-primary btn-block mb-3">Submit</button>
+        </form>
+
+    </div>
+</body>
+<script>
+    //adds a burger when the submit button is clicked
+    $('#submit').on('click', function (event) {
+        event.preventDefault();
+        var burger = { burger: $('#burgerInput').val().trim() };
+
+        $.post('/api/addBurger', burger, function () {
+            console.log('POSTED')
+        }).then(() => location.reload());
+
+    })
+
+    //sets burger to devoured when devoured button clicked
+    $(document).on('click', '.devourButton', function (event) {
+        event.preventDefault()
+        console.log('THE ID IS ' + $(this).attr('burgerId'))
+        var id = { id: $(this).attr('burgerId') };
+        $.post('/api/Devour', id, function () {
+            console.log('POSTED');
+        })
+            .then(() => location.reload());
+    })
+</script>
+
+</html>

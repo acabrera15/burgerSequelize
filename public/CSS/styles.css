@@ -1,0 +1,9 @@
+body {
+    background-color: yellow;
+    font-size: 30px;
+}
+
+#burgerImage {
+    width: 150px;
+    height:160px;
+}
