@@ -28,11 +28,40 @@ var router = express.Router();
 var db = require('../models');
 
 router.get('/', function(req, res) {
-  db.Burger.findAll({}).then(function(data) {
+  db.Burgers.findAll({}).then(function(data) {
     console.log('returnedData: ' + data);
-    res.json(data);
+    var hbObj = { burgers: data};
+    res.render("index", hbObj)
   }).catch(function(err) {
     if (err) throw err;
+  })
+})
+
+router.post("/api/addBurger", function(req, res) {
+  db.Burgers.create({
+    burger_name: req.body.burger
+  }).then(function(data) {
+    res.redirect('/');
+  }).catch(function(err) {
+    if (err) throw err;
+  });
+})
+
+router.post('/api/Devour', function(req, res) {
+  db.Burgers.update(
+    {
+      devoured: true
+    }, 
+    {
+      where: {
+        id: req.body.id
+      }
+    }
+  ).then(function(data) {
+    console.log(data);
+    res.redirect('/');
+  }).catch((err) => {
+    throw err;
   })
 })
 module.exports = router;
